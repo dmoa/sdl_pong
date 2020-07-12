@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -7,7 +9,8 @@ class Score {
 public:
     Score(SDL_Renderer* renderer);
     void Draw();
-    void Update(int score1, int score2);
+    void p1();
+    void p2();
 private:
     SDL_Renderer* m_renderer;
     SDL_Texture* m_texture_1;

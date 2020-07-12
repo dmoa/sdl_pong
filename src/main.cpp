@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 
@@ -39,9 +41,9 @@ int main(int argc, char* argv[]) {
             }
         }
         clock.tick();
-        ball.Update(clock.dt);
+
+        ball.Update(clock.dt, &score);
         paddles.Update(clock.dt, keys_down, &ball);
-        score.Update(paddles.GetScore1(), paddles.GetScore2());
 
 
         SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);

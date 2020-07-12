@@ -2,34 +2,37 @@
 
 Ball::Ball(int window_length) {
     m_window_length = window_length;
-    m_xv = 100;
-    m_yv = 100;
+    m_xv = m_initial_xv = 100;
+    m_yv = m_initial_yv = 100;
     m_x = m_rect.x = 150;
     m_y = m_rect.y = 50;
     m_rect.w = 50;
     m_rect.h = 50;
-    m_offscreen = 0;
 }
 
 void Ball::Draw(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &m_rect);
 }
 
-void Ball::Update(double dt) {
+void Ball::Update(double dt, Score* score) {
     m_old_x = m_x;
     m_old_y = m_y;
+    m_yv += m_yv < 0 ? -30 * dt: 30 * dt;
+    m_xv += m_xv < 0 ? -30 * dt: 30 * dt;
     m_x += m_xv * dt;
     m_y += m_yv * dt;
 
     if (m_x + m_rect.w + 150 < 0 || m_x - 150 > m_window_length) {
         if (m_x < 0)
-            m_offscreen = -1;
+            score->p1();
         else
-            m_offscreen = 1;
+            score->p2();
 
         m_x = m_window_length / 2 - m_rect.w / 2;
         m_y = m_window_length / 2 - m_rect.h / 2;
         m_xv *= -1;
+        m_yv = m_initial_yv;
+        m_xv = m_initial_xv;
     }
     else if (m_y < 0) {
         m_y = 0;
@@ -42,6 +45,7 @@ void Ball::Update(double dt) {
 
     m_rect.x = m_x;
     m_rect.y = m_y;
+
 }
 
 void Ball::ReactToPaddle(float x, float y, int w, int h) {
@@ -53,12 +57,6 @@ void Ball::ReactToPaddle(float x, float y, int w, int h) {
             m_yv *= -1;
         }
     }
-}
-
-int Ball::LeftScreen() {
-    int i = m_offscreen;
-    m_offscreen = 0;
-    return i;
 }
 
 bool Ball::AABB(float x, float y, int w, int h, float x2, float y2, int w2, int h2) {

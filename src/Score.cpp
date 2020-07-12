@@ -40,19 +40,18 @@ void Score::Draw() {
     SDL_RenderCopy(m_renderer, m_texture_2, NULL, &m_score_2_rect);
 }
 
-void Score::Update(int score1, int score2) {
-    if (m_score_1 != score1) {
-        m_score_1 = score1;
+void Score::p1() {
+    m_score_1++;
 
-        SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_1).c_str(), m_color_white);
-        m_texture_1 = SDL_CreateTextureFromSurface(m_renderer, surface);
-        SDL_FreeSurface(surface);
-    }
-    if (m_score_2 != score2) {
-        m_score_2 = score2;
+    SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_1).c_str(), m_color_white);
+    m_texture_1 = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_FreeSurface(surface);
+}
 
-        SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_2).c_str(), m_color_white);
-        m_texture_2 = SDL_CreateTextureFromSurface(m_renderer, surface);
-        SDL_FreeSurface(surface);
-    }
+void Score::p2() {
+    m_score_2++;
+
+    SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_2).c_str(), m_color_white);
+    m_texture_2 = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_FreeSurface(surface);
 }
